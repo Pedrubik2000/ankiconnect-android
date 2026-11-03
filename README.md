@@ -13,6 +13,8 @@ Any app on the phone can reach the port while the service runs, and through it r
 
 Not implemented: `findCards`, so Manatan's "Vocabulary from Anki" shows an error. Mining is not affected.
 
+If Manatan says "AnkiDroid is not installed" or that the AnkiDroid permission is not granted, its provider has switched back to AnkiDroid: select AnkiConnect again in Settings > Flashcards.
+
 ---
 
 # Ankiconnect Android
