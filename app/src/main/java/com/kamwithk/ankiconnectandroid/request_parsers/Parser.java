@@ -128,6 +128,15 @@ public class Parser {
         return array;
     }
 
+    public static ArrayList<Long> getCardIds(JsonObject raw_data) {
+        ArrayList<Long> cardIds = new ArrayList<>();
+        JsonArray jsonCardIds = raw_data.get("params").getAsJsonObject().get("cards").getAsJsonArray();
+        for(JsonElement cardId: jsonCardIds) {
+            cardIds.add(cardId.getAsLong());
+        }
+        return cardIds;
+    }
+
     public static ArrayList<Long> getNoteIds(JsonObject raw_data) {
         ArrayList<Long> noteIds = new ArrayList<>();
         JsonArray jsonNoteIds = raw_data.get("params").getAsJsonObject().get("notes").getAsJsonArray();

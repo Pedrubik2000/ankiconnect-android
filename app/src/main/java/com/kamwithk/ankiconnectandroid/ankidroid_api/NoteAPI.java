@@ -241,7 +241,7 @@ public class NoteAPI {
 
                 for (int i = 0; i < fieldNames.length; i++) {
                     String fieldName = fieldNames[i];
-                    String fieldValue = fieldValues[i];
+                    String fieldValue = i < fieldValues.length ? fieldValues[i] : "";
                     NoteInfoField noteInfoField = new NoteInfoField(fieldValue, i);
                     fields.put(fieldName, noteInfoField);
                 }

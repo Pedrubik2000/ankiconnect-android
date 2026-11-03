@@ -56,6 +56,10 @@ public class AnkiAPIRouting {
                 return modelNamesAndIds();
             case "modelFieldNames":
                 return modelFieldNames(raw_json);
+            case "findCards":
+                return Parser.gson.toJson(integratedAPI.cardAPI.findCards(Parser.getNoteQuery(raw_json)));
+            case "cardsInfo":
+                return Parser.gson.toJson(integratedAPI.cardAPI.cardsInfo(Parser.getCardIds(raw_json)));
             case "findNotes":
                 return findNotes(raw_json);
             case "guiBrowse":

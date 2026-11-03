@@ -7,11 +7,9 @@ Differences from upstream:
 - Targets `io.github.pedrubik2000.kuma3` (its provider, permission and media grants) and does not work with AnkiDroid.
 - Listens on `127.0.0.1` only; upstream listens on every network.
 - Refuses requests from web pages (any Origin other than extensions, local pages and the CORS host in Settings).
-- Answers `requestPermission`.
+- Answers `requestPermission`, `findCards` and `cardsInfo` (so Manatan's "Vocabulary from Anki" works). `cardsInfo` leaves out `question`, `answer`, `css` and `mod`.
 
 Any app on the phone can reach the port while the service runs, and through it read and add your cards, so stop the service when you are not mining.
-
-Not implemented: `findCards`, so Manatan's "Vocabulary from Anki" shows an error. Mining is not affected.
 
 If Manatan says "AnkiDroid is not installed" or that the AnkiDroid permission is not granted, its provider has switched back to AnkiDroid: select AnkiConnect again in Settings > Flashcards.
 
