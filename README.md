@@ -1,3 +1,20 @@
+# AnkiConnect for kuma3
+
+Fork of [Ankiconnect Android](https://github.com/KamWithK/AnkiconnectAndroid) that talks to kuma3 instead of AnkiDroid, so apps that speak AnkiConnect (Manatan's AnkiConnect option, Yomitan) can add cards to kuma3. It installs next to the original but both use port 8765, so run one at a time.
+
+Differences from upstream:
+
+- Targets `io.github.pedrubik2000.kuma3` (its provider, permission and media grants) and does not work with AnkiDroid.
+- Listens on `127.0.0.1` only; upstream listens on every network.
+- Refuses requests from web pages (any Origin other than extensions, local pages and the CORS host in Settings).
+- Answers `requestPermission`.
+
+Any app on the phone can reach the port while the service runs, and through it read and add your cards, so stop the service when you are not mining.
+
+Not implemented: `findCards`, so Manatan's "Vocabulary from Anki" shows an error. Mining is not affected.
+
+---
+
 # Ankiconnect Android
 
 Ankiconnect Android allows you to utilize the standard Anki mining workflow on Android devices like phones and eReaders.

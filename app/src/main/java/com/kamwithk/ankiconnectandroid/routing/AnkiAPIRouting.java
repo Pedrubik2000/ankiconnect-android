@@ -44,6 +44,8 @@ public class AnkiAPIRouting {
         switch (Parser.get_action(raw_json)) {
             case "version":
                 return version();
+            case "requestPermission":
+                return requestPermission();
             case "deckNames":
                 return deckNames();
             case "deckNamesAndIds":
@@ -129,6 +131,10 @@ public class AnkiAPIRouting {
 
     private NanoHTTPD.Response returnResponse(String response) {
         return newFixedLengthResponse(NanoHTTPD.Response.Status.OK, "text/json", response);
+    }
+
+    private String requestPermission() {
+        return "{\"permission\":\"granted\",\"requireApikey\":false,\"version\":6}";
     }
 
     private String version() {

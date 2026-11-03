@@ -52,6 +52,12 @@ public class RouteHandler extends RouterNanoHTTPD.DefaultHandler {
             apiHandler = new APIHandler(new IntegratedAPI(context), context);
         }
 
+//        kuma3: a web page's POST runs even when CORS hides the reply from it, so refuse it here
+        String corsHost = PreferenceManager.getDefaultSharedPreferences(context).getString("cors_host", "");
+        if (!isAllowedOrigin(session.getHeaders().get("origin"), corsHost)) {
+            return newFixedLengthResponse(NanoHTTPD.Response.Status.FORBIDDEN, NanoHTTPD.MIME_PLAINTEXT, "Origin not allowed");
+        }
+
 //        Enforce UTF-8 encoding (response doesn't always contain by default)
         session.getHeaders().put("content-type", contentType);
 
@@ -80,6 +86,15 @@ public class RouteHandler extends RouterNanoHTTPD.DefaultHandler {
 
         addCorsHeaders(context, rep);
         return rep;
+    }
+
+    /** Other apps send no Origin. Browsers do: allow extensions like Yomitan, local pages and the configured CORS host. */
+    static boolean isAllowedOrigin(String origin, String corsHost) {
+        if (origin == null) return true;
+        String allowed = corsHost.trim();
+        if (allowed.equals("*") || origin.equals(allowed)) return true;
+        if (origin.startsWith("moz-extension://") || origin.startsWith("chrome-extension://")) return true;
+        return origin.matches("https?://(localhost|127\\.0\\.0\\.1)(:\\d+)?");
     }
 
     private void addCorsHeaders(Context context, NanoHTTPD.Response rep) {

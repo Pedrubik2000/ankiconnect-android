@@ -1,0 +1,28 @@
+// kuma3's api module (LGPL, COPYING.LESSER) pointed at kuma3 instead of AnkiDroid.
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    namespace 'com.ichi2.anki.api'
+    compileSdk 36
+
+    defaultConfig {
+        minSdk 26
+        buildConfigField 'String', 'READ_WRITE_PERMISSION', '"io.github.pedrubik2000.kuma3.permission.READ_WRITE_DATABASE"'
+        buildConfigField 'String', 'AUTHORITY', '"io.github.pedrubik2000.kuma3.flashcards"'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_9
+        targetCompatibility JavaVersion.VERSION_1_9
+    }
+    kotlinOptions {
+        jvmTarget = '9'
+    }
+}
+
+dependencies {
+    implementation 'androidx.annotation:annotation:1.6.0'
+}

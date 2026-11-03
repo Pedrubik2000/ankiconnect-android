@@ -3,14 +3,14 @@ plugins {
 }
 
 android {
-    compileSdk 33
+    compileSdk 36
 
     defaultConfig {
-        applicationId "com.kamwithk.ankiconnectandroid"
+        applicationId "io.github.pedrubik2000.ankiconnect"
         minSdk 26
         targetSdk 33
         versionCode 15
-        versionName "1.15"
+        versionName "1.15-kuma3"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -22,8 +22,18 @@ android {
 
     }
 
+    signingConfigs {
+        release {
+            storeFile System.getenv("ANKICONNECT_KEYSTORE") ? file(System.getenv("ANKICONNECT_KEYSTORE")) : null
+            storePassword System.getenv("ANKICONNECT_KEYSTORE_PASSWORD")
+            keyAlias "ankiconnect"
+            keyPassword System.getenv("ANKICONNECT_KEYSTORE_PASSWORD")
+        }
+    }
+
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -52,7 +62,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.9.0'
     implementation 'org.nanohttpd:nanohttpd:2.3.1'
     implementation 'org.nanohttpd:nanohttpd-nanolets:2.3.1'
-    implementation 'com.github.ankidroid:Anki-Android:2.17alpha14'
+    implementation project(':api')
     implementation 'org.jsoup:jsoup:1.14.3'
     implementation 'androidx.preference:preference:1.2.0'
 

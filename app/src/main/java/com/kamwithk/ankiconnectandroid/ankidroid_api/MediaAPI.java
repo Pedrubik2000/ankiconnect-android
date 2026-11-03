@@ -48,7 +48,7 @@ public class MediaAPI {
         }
 
         Uri file_uri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID, file);
-        context.grantUriPermission("com.ichi2.anki", file_uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        context.grantUriPermission("io.github.pedrubik2000.kuma3", file_uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(FlashCardsContract.AnkiMedia.FILE_URI, file_uri.toString());

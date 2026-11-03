@@ -11,7 +11,8 @@ public class Router extends RouterNanoHTTPD {
     public static String contentType;
 
     public Router(Integer port, Context context) throws IOException {
-        super(port);
+        // kuma3: this phone only, upstream listens on every network
+        super("127.0.0.1", port);
         this.context = context;
 
         contentType = new ContentType("; charset=UTF-8").getContentTypeHeader();

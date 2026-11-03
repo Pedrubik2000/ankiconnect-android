@@ -370,7 +370,7 @@ public class IntegratedAPI {
         // https://github.com/ankidroid/Anki-Android/pull/11899
         Uri webpage = Uri.parse("anki://x-callback-url/browser?search=" + query);
         Intent webIntent = new Intent(Intent.ACTION_VIEW, webpage);
-        webIntent.setPackage("com.ichi2.anki");
+        webIntent.setPackage("io.github.pedrubik2000.kuma3");
         // FLAG_ACTIVITY_NEW_TASK is needed in order to display the intent from a different app
         // FLAG_ACTIVITY_CLEAR_TOP and Intent.FLAG_ACTIVITY_TASK_ON_HOME is needed in order to not
         // cause a long chain of activities within Ankidroid

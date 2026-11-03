@@ -7,4 +7,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "Ankiconnect Android"
-include ':app'
+include ':app', ':api'
