@@ -110,9 +110,11 @@ public class NoteRequest {
         String modelName = noteObject.get("modelName").getAsString();
         String deckName = noteObject.get("deckName").getAsString();
 
-        JsonArray jsonTags = noteElement.getAsJsonObject().get("tags").getAsJsonArray();
-        for (JsonElement tag : jsonTags) {
-            tagList.add(tag.getAsString());
+        // Tags are optional, as in AnkiConnect: Hoshi Reader's duplicate check sends none.
+        if (noteObject.has("tags") && noteObject.get("tags").isJsonArray()) {
+            for (JsonElement tag : noteObject.get("tags").getAsJsonArray()) {
+                tagList.add(tag.getAsString());
+            }
         }
 
         NoteOptions options = null;
@@ -137,8 +139,11 @@ public class NoteRequest {
         boolean duplicateScopeCheckAllModels = false;
 
 
-        allowDuplicate = optionsObject.get("allowDuplicate").getAsBoolean();
-        duplicateScope = optionsObject.get("duplicateScope").getAsString();
+        // Every key is optional, with AnkiConnect's defaults (Hoshi Reader leaves some out).
+        if (optionsObject.has("allowDuplicate")) {
+            allowDuplicate = optionsObject.get("allowDuplicate").getAsBoolean();
+        }
+        duplicateScope = optionsObject.has("duplicateScope") ? optionsObject.get("duplicateScope").getAsString() : "collection";
         if (optionsObject.has("duplicateScopeOptions")) {
             JsonObject duplicateScopeObject = optionsObject.get("duplicateScopeOptions").getAsJsonObject();
 
@@ -148,10 +153,10 @@ public class NoteRequest {
                     duplicateScopeDeckName = duplicateDeckName.getAsString();
                 }
             }
-            if (duplicateScopeObject.has("deckName")) {
+            if (duplicateScopeObject.has("checkChildren")) {
                 duplicateScopeCheckChildren = duplicateScopeObject.get("checkChildren").getAsBoolean();
             }
-            if (duplicateScopeObject.has("deckName")) {
+            if (duplicateScopeObject.has("checkAllModels")) {
                 duplicateScopeCheckAllModels = duplicateScopeObject.get("checkAllModels").getAsBoolean();
             }
         }

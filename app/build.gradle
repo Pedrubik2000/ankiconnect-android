@@ -9,8 +9,8 @@ android {
         applicationId "io.github.pedrubik2000.ankiconnect"
         minSdk 26
         targetSdk 33
-        versionCode 16
-        versionName "1.16-kuma3"
+        versionCode 17
+        versionName "1.17-kuma3"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
