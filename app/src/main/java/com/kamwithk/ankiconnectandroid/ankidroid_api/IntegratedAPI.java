@@ -260,6 +260,7 @@ public class IntegratedAPI {
     public Long addNote(final Map<String, String> data, String deck_name, String model_name, Set<String> tags) throws Exception {
         Long deck_id = deckAPI.getDeckID(deck_name);
         Long model_id = modelAPI.getModelID(model_name, data.size());
+        useStoredNames(data, storedNames);
         Long note_id = noteAPI.addNote(data, deck_id, model_id, tags);
 
         if (note_id != null) {
@@ -361,11 +362,32 @@ public class IntegratedAPI {
         }
 
         addMedia(cardFields, mediaRequests);
+        useStoredNames(cardFields, storedNames);
         noteAPI.updateNoteFields(note_id, cardFields);
     }
 
+    // kuma3's provider renames every media file (file.mp3 -> file_123.mp3). Clients like Hoshi Reader
+    // ignore storeMediaFile's answer and write [sound:file.mp3], so notes get the stored name here.
+    // ponytail: grows by one short entry per stored file until the service restarts.
+    private static final Map<String, String> storedNames = new java.util.concurrent.ConcurrentHashMap<>();
+
     public String storeMediaFile(BinaryFile binaryFile) throws IOException {
-        return mediaAPI.storeMediaFile(binaryFile.getFilename(), binaryFile.getData());
+        String stored = mediaAPI.storeMediaFile(binaryFile.getFilename(), binaryFile.getData());
+        storedNames.put(binaryFile.getFilename(), stored);
+        return stored;
+    }
+
+    /** Points [sound:x] and src="x" at the names kuma3 stored the files under. */
+    public static void useStoredNames(Map<String, String> fields, Map<String, String> names) {
+        for (Map.Entry<String, String> field : fields.entrySet()) {
+            String value = field.getValue();
+            if (value == null) continue;
+            for (Map.Entry<String, String> name : names.entrySet()) {
+                value = value.replace("[sound:" + name.getKey() + "]", "[sound:" + name.getValue() + "]")
+                        .replace("src=\"" + name.getKey() + "\"", "src=\"" + name.getValue() + "\"");
+            }
+            field.setValue(value);
+        }
     }
 
     public ArrayList<Long> guiBrowse(String query) {
